@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"./config"
 	"log"
-	//"fmt"
 )
 
 var(
@@ -29,7 +28,6 @@ func main() {
 	}
 	
 	http.HandleFunc("/", index)
-	http.HandleFunc("/login", login)
 	http.HandleFunc("/register", register)
 
 	http.ListenAndServe(":8080", nil)
@@ -37,14 +35,6 @@ func main() {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	err := tpl.ExecuteTemplate(w, "index.gohtml", nil)
-	
-	if err != nil {
-		log.Println(err.Error())
-	}
-}
-
-func login(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "login.gohtml", nil)
 	
 	if err != nil {
 		log.Println(err.Error())
