@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"net/http"
 	"./config"
+	"bytes"
 	"log"
 )
 
@@ -18,6 +19,8 @@ var(
 	DataUser string
 	DataPassword string
 	DataBaseName string
+	
+	buffer bytes.Buffer
 )
 
 func init() {
@@ -48,10 +51,16 @@ func main() {
 	log.Printf("Password: %s", DataPassword)
 	log.Printf("BaseName: %s", DataBaseName)
 	
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/osadnicy")
+	buffer.WriteString(DataUser)
+	buffer.WriteString(":@tcp(127.0.0.1:3306)/")
+	buffer.WriteString(DataBaseName)
+	
+	db, err := sql.Open("mysql", buffer.String())
 	
 	if err != nil {
 		panic(err.Error())
+	}else {
+		log.Println("Succefully connected with database!")
 	}
 	
 	http.ListenAndServe(":8080", nil)
