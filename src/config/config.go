@@ -9,12 +9,18 @@ import(
 
 var(
 	Port string
+	User string
+	Password string
+	BaseName string
 	
 	config *Configuration
 )
 
 type Configuration struct {
 	Port string `json:"Port"`
+	User string `json:"User"`
+	Password string `json:"Password"`
+	BaseName string `json:"BaseName"`
 }
 
 func LoadConfiguration() error {
@@ -35,7 +41,10 @@ func LoadConfiguration() error {
 		
 		_, err = configFile.WriteString(
 	`{
-	"Port": ""
+	"Port": "",
+	"User": "",
+	"Password": "",
+	"BaseName": ""
 }`)
 		
 		if err != nil {
@@ -67,6 +76,9 @@ func LoadConfiguration() error {
 	}
 	
 	Port = config.Port
+	User = config.User
+	Password = config.Password
+	BaseName = config.BaseName
 	
 	return nil
 }
