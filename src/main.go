@@ -24,7 +24,7 @@ var(
 )
 
 func init() {
-	tpl = template.Must(template.ParseGlob("templates/*.gohtml")) 
+	tpl = template.Must(template.ParseGlob("templates/*.html")) 
 }
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
 	buffer.WriteString(DataUser)
 	buffer.WriteString(":@tcp(127.0.0.1:3306)/")
 	buffer.WriteString(DataBaseName)
-	
+
 	db, err := sql.Open("mysql", buffer.String())
 	
 	if err != nil {
@@ -71,7 +71,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "index.gohtml", nil)
+	err := tpl.ExecuteTemplate(w, "index.html", nil)
 	
 	if err != nil {
 		log.Println(err.Error())
@@ -79,9 +79,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func register(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "register.gohtml", nil)
+	err := tpl.ExecuteTemplate(w, "register.html", nil)
 	
 	if err != nil {
 		log.Println(err.Error())
 	}
+	
+	if template.HTMLEscapeString(r.Form.Get("nicknameField")) == "" {
+		log.Println("NOPE")
+	}
+	
+	log.Println("username:", template.HTMLEscapeString(r.Form.Get("nicknameField")))
 }
